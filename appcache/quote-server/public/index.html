@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <title>POST example</title>
+    <!-- import hosted copy of jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script>
+        var clientOnline = navigator.onLine;
+
+        window.addEventListener('online', function () {
+            if (localStorage) {
+                var formData = JSON.parse(localStorage.getItem('formData'));
+                if (formData) {
+                    postData(formData);
+                }
+
+            }
+            alert('You are online now.')
+        });
+        window.addEventListener('offline', function () {
+
+            alert('You are offline now.')
+        });
+
+        function postData(formData) {
+            $.post('/quote', formData).done(function (response) {
+                alert(response);
+
+            }).fail(function (response) {
+                console.log('Error: ' + response);
+            }).always(function () {
+                console.log('finished');
+            });
+        }
+        function testPost() {
+            $.post('/quote', {
+                'test': 'value'
+            }).done(function (response) {
+                alert(response);
+            }).fail(function (response) {
+                console.log('Error: ' + response);
+            }).always(function () {
+                console.log('finished');
+            });
+        }
+
+        function submitData() {
+            var fData = {
+                'firstName': $('#fName').val(),
+                'lastName': $('#lName').val()
+            }
+            if (localStorage) {
+                localStorage.setItem('formData', JSON.stringify(fData));
+                alert('data submitted successfully' + fData.firstName);
+            }
+            if (navigator.onLine) {
+                postData(fData);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <a href="#" onclick="testPost();">Click me</a>
+    <form>
+        <label>First Name</label>
+        <input id="fName" type="text" name="firstName" />
+        <label>Last Name</label>
+        <input id="lName" type="text" name="lastName" />
+        <label></label>
+        <button type="button" onclick="submitData()">submit</button>
+    </form>
+
+</body>
+
+</html>

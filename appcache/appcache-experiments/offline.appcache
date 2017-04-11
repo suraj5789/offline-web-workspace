@@ -1,0 +1,11 @@
+CACHE MANIFEST
+# 10/04/2017 v7
+
+CACHE:
+index.html
+https://i.redd.it/kfqtavcnnaix.jpg
+
+NETWORK:
+*
+
+#FALLBACK:

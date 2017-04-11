@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <title>ServiceWorker AND AppCache</title>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("sw.js").then(function(reg) {
+                console.log("ServiceWorker registered!");
+            }, function(err) {
+                console.log("ServiceWorker failed to register... " + err);
+            });
+        } else {
+            console.log("No ServiceWorker, will use AppCache instead!");
+            document.addEventListener("DOMContentLoaded", function(event) {
+                document.body.innerHTML += "<iframe src=\"offline.html\" width=\"0\" height=\"0\"></iframe>";
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>ServiceWorker AND AppCache</h1>
+    <img src="image.jpg" />
+</body>
+
+</html>

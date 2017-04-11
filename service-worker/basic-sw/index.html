@@ -1,0 +1,21 @@
+<html>
+
+<head>
+    <title>ServiceWorker Example</title>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("sw.js").then(function(reg) {
+                console.log("ServiceWorker registered!");
+            }, function(err) {
+                console.log("ServiceWorker failed to register... " + err);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>ServiceWorker Example</h1>
+    <img src="image.jpg" />
+</body>
+
+</html>

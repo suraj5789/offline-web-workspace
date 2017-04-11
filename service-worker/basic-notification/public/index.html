@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>Notification Example</title>
+    <link rel="manifest" href="manifest.json">
+    <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("sw.js").then(function(reg) {
+                console.log("ServiceWorker registered!");
+                navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+                    serviceWorkerRegistration.pushManager.getSubscription()
+                        .then(function(subscription) {
+                            if (!subscription) {
+                                return;
+                            }
+                            console.log(subscription);
+                            isPushEnabled = true;
+                        })
+                        .catch(function(err) {
+                            console.warn('Error during getSubscription()', err);
+                        });
+                });
+            }, function(err) {
+                console.log("ServiceWorker failed to register... " + err);
+            });
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+                    serviceWorkerRegistration.pushManager.subscribe({
+                            userVisibleOnly: true
+                        })
+                        .then(function(subscription) {
+                            isPushEnabled = true;
+
+                            // TODO: Send the subscription.endpoint to your server  
+                            // and save it to send a push message at a later date
+                            console.log(subscription);
+                        })
+                        .catch(function(e) {
+                            if (Notification.permission === 'denied') {
+                                console.warn('Permission for Notifications was denied');
+                            } else {
+                                console.error('Unable to subscribe to push.', e);
+                            }
+                        });
+                });
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Notification Example</h1>
+</body>
+
+</html>
